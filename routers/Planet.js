@@ -25,13 +25,13 @@ router.get('/planet', async (req, res) => {
                 relationalData.push(output.get('name') || output.get('title'))
             })
             console.log(`relational Data(${className}) : `, relationalData)            
-            console.log('\n')
             temp[key] = relationalData
             console.log('modified temp data : ', temp)
+            console.log('\n')
         }
     }
 
-    res.send(temp)    
+    res.status(200).send(temp)    
 })
 
 module.exports = router;

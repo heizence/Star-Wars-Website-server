@@ -5,11 +5,15 @@ const bodyParser = require('body-parser')
 const app = express()
 const port = 3001
 
-const planet = require('./routers/Planet')
+const GetSpecificData = require('./routers/GetSpecificData')
+const GetDataNames = require('./routers/GetDataNames')
 
+app.set('port', port)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
-app.use(planet, (req, res) => console.log('get planets!'))
+
+// Data Fetching Routers
+app.use(GetSpecificData, GetDataNames)
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))

@@ -1,10 +1,11 @@
 const Router = require('router')
 const router = Router()
-const queries = require('../parseInfo')
+const createQueries = require('../parseInfo')
 
 router.get('/getdata', async (req, res) => {
     let  { category, name } = req.query
-    //console.log('Check query : ', category, name)
+    console.log('Fetch Request : \n', 'category : ', category, '\nname : ', name)
+    let queries = createQueries()
 
     try {
         let nameOrTitle = category === 'Film' ? 'title' : 'name'
@@ -20,12 +21,10 @@ router.get('/getdata', async (req, res) => {
             // why (key in result) doesn't work?
             let temp = JSON.stringify(result)
             temp = JSON.parse(temp)
-            //console.log('결과 확인 : ' , temp)
+           
             for (let key in temp) {
                 if (temp[key] && temp[key]['__type'] === 'Relation')  {
-                    //console.log('relational object: ' , temp[key], 'key: ', key)
                     let className = temp[key]['className']
-
                     let relationalData = []
 
                     await result.relation(key).query().each(async object => {
@@ -33,13 +32,22 @@ router.get('/getdata', async (req, res) => {
                         let output = await queries[className].find()
                         output = output[0]        
                         relationalData.push(output.get('name') || output.get('title'))
-                    })
-                    //console.log(`relational Data(${className}) : `, relationalData)            
+                    })          
+
                     temp[key] = relationalData
-                    console.log('modified temp data : ', temp)
-                    console.log('\n')
+                }
+                else if (temp[key] && temp[key]['__type'] === 'Pointer')  {
+                    let className = temp[key]['className']
+                    let relationalData = []
+
+                    queries[className].equalTo('objectId', temp[key]['objectId'])
+                    let output = await queries[className].find()
+                    output = output[0]        
+                    relationalData.push(output.get('name') || output.get('title'))       
+                    temp[key] = relationalData
                 }
             }
+            console.log('data : ', temp)            
             res.status(200).send(temp) 
         }
     } 
@@ -47,6 +55,7 @@ router.get('/getdata', async (req, res) => {
         console.log(error)
         res.status(400).send(error)
     }
+    console.log('\n')
 })
 
 module.exports = router;

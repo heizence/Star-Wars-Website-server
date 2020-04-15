@@ -1,6 +1,6 @@
 const Router = require('router')
 const router = Router()
-const queries = require('../../parseInfo').dataClass()
+const queries = require('../../classes').dataClass()
 
 router.get('/getnames', async (req, res) => {    
     let  { category } = req.query

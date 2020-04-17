@@ -1,7 +1,7 @@
 const Router = require('router')
 const router = Router()
 
-router.get('/signout', async (req, res) => {
+router.get('/user/signout', async (req, res) => {
   console.log('Sign out request\n', req.session, '\n')
 
   if (req.session.user){ 

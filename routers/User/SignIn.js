@@ -3,8 +3,8 @@ const router = Router()
 const crypto = require('crypto')
 const query = require('../../classes').userClass().query
 
-router.get('/signin', async (req, res) => {
-  console.log('Sign in request\n', req.session, '\n')
+router.post('/user/signin', async (req, res) => {
+  console.log('Sign in request\n', req.body, '\n')
 
   if (req.session.user) {
     console.log('already logged in.', req.session.user)
@@ -12,9 +12,7 @@ router.get('/signin', async (req, res) => {
   }
 
   else {
-    let { email, password } = req.query
-
-    console.log('Sign in Request\n', req.query)
+    let { email, password } = req.body
     
     const secret = 'heizence';
     const hash = crypto.createHmac('sha256', secret).update(String(password)).digest('hex');
@@ -28,15 +26,14 @@ router.get('/signin', async (req, res) => {
 
       if (user.length === 0) {
         console.log('No matching user!')
-        res.status(400).send('No matching user!')
       }
       else {
         req.session.user = user[0].id
         req.session.userPassword = hash   // For future use
         console.log('Logged in user', user);
-        console.log('Session : ', req.session)
-        res.status(200).send(user)
+        console.log('Session : ', req.session)        
       }      
+      res.status(200).send(user)
     }
     catch(error) {
         console.error('Error while logging in user', error);

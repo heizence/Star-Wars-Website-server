@@ -3,7 +3,7 @@ const router = Router()
 const crypto = require('crypto')
 const user = require('../../classes').userClass().user
 
-router.post('/signup', async (req, res) => {
+router.post('/user/signup', async (req, res) => {
     let { username, email, password } = req.body
     console.log('Sign up Request\n', req.body)
     

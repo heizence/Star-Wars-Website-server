@@ -3,7 +3,7 @@ const router = Router()
 const crypto = require('crypto')
 const query = require('../../classes').userClass().query
 
-router.post('/updateuser', async (req, res) => {
+router.post('/user/updateuser', async (req, res) => {
     let { newUsername, newPassword } = req.body
     console.log('Update user request\n', req.body)
     

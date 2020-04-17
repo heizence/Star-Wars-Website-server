@@ -2,7 +2,7 @@ const Router = require('router')
 const router = Router()
 const query = require('../../classes').userClass().query
 
-router.post('/checkuserinfo', async (req, res) => {
+router.post('/user/checkuserinfo', async (req, res) => {
     let { category, subject } = req.body
     console.log('Check email or username Request\n', req.body)
     
@@ -13,7 +13,7 @@ router.post('/checkuserinfo', async (req, res) => {
 
         if (isExists.length > 0) {
             console.log(`${category} already exists.`)
-            res.status(200).send(`${category} already exists.`)
+            res.status(201).send(`${category} already exists.`)
         }
         else {
             console.log(`${category} available.`)

@@ -3,7 +3,7 @@ const router = Router()
 const crypto = require('crypto')
 const query = require('../../classes').userClass().query
 
-router.delete('/deleteuser', async (req, res) => {
+router.delete('/user/deleteuser', async (req, res) => {
     let { password } = req.query
     console.log('Delete user request\n', req.query)
     

@@ -2,7 +2,7 @@ const Router = require('router')
 const router = Router()
 const queries = require('../../classes').dataClass()
 
-router.get('/getdata', async (req, res) => {
+router.get('/data/getdata', async (req, res) => {
     let  { category, name } = req.query
     console.log('Fetch Request : \n', req.query)
 

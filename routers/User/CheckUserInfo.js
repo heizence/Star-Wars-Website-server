@@ -1,12 +1,14 @@
 const Router = require('router')
 const router = Router()
+const Auth = require('./Auth')
 const query = require('../../classes').userClass().query
 
 router.post('/user/checkuserinfo', async (req, res) => {
     let { category, subject } = req.body
-    console.log('Check email or username Request\n', req.body)
-    
+    console.log(`Check ${category} Request\n`, req.body)
+   
     try {
+        query.exists('username')
         query.equalTo(category, subject)
         let isExists = await query.find()
         console.log('Already exists? : ', isExists)
@@ -21,7 +23,7 @@ router.post('/user/checkuserinfo', async (req, res) => {
         }
     }
     catch(error) {
-        console.error('Error while signing up user', error);
+        console.log('error occured!', error);
         res.status(400).send(error)
     }
     console.log('\n')

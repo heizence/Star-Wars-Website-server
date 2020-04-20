@@ -7,8 +7,8 @@ router.post('/user/signup', async (req, res) => {
     let { username, email, password } = req.body
     console.log('Sign up Request\n', req.body)
     
-    const secret = 'heizence';
-    const hash = crypto.createHmac('sha256', secret).update(String(password)).digest('hex');
+    const hash = crypto.createHmac('sha256', 'heizence')
+    .update(String(password)).digest('hex');
 
     user.set('email', email);
     user.set('username', username);

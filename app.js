@@ -1,7 +1,10 @@
 const express = require('express')
 const cors = require('cors');
+const corsOptions = {
+    origin: 'http://localhost:3000', 
+    credentials: true
+};
 const bodyParser = require('body-parser')
-const expressSession = require('express-session')
 
 const app = express()
 const port = 3001
@@ -17,15 +20,10 @@ const DeleteUser = require('./routers/User/DeleteUser')
 const CheckUserInfo = require('./routers/User/CheckUserInfo')
 
 app.set('port', port)
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
-app.use(expressSession({
-    secret: 'my key',
-    resave: true,
-    saveUninitialized: true
-}))
-  
+
 // Data Fetching Routers
 app.use(
     GetSpecificData, GetDataNames, 

@@ -22,6 +22,7 @@ router.get('/data/getdata', async (req, res) => {
             temp = JSON.parse(temp)
            
             for (let key in temp) {
+                //console.log('key : ', key, 'temp[key] :', temp[key])
                 if (temp[key] && temp[key]['__type'] === 'Relation')  {
                     let className = temp[key]['className']
                     let relationalData = []
@@ -33,7 +34,10 @@ router.get('/data/getdata', async (req, res) => {
                         relationalData.push(output.get('name') || output.get('title'))
                     })          
 
-                    temp[key] = relationalData
+                    temp[key] = { 
+                        type: 'relational', 
+                        category: className,    // for client use
+                        data: relationalData }
                 }
                 else if (temp[key] && temp[key]['__type'] === 'Pointer')  {
                     let className = temp[key]['className']
@@ -44,6 +48,9 @@ router.get('/data/getdata', async (req, res) => {
                     output = output[0]        
                     relationalData.push(output.get('name') || output.get('title'))       
                     temp[key] = relationalData
+                }
+                else if (temp[key] && temp[key]['__type'] === 'Date')  {                       
+                    temp[key] = temp[key]['iso']
                 }
             }
             console.log('data : ', temp)            

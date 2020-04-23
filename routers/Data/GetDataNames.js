@@ -10,13 +10,15 @@ router.get('/data/getnames', async (req, res) => {
         let nameOrTitle = category === 'Film' ? 'title' : 'name'
         queries[category].exists(nameOrTitle)
 
-        let result = await queries[category].distinct(nameOrTitle)
+        //let result = await queries[category].distinct(nameOrTitle)
+        let result = await queries[category].find()
         console.log('data : ', result)
 
         if (result.length === 0) {
             res.status(400).send('No results found')
         }
         else {
+            console.log('success')
             res.status(200).send(result)
         }
     }

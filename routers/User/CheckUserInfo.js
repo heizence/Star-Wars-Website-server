@@ -1,13 +1,13 @@
 const Router = require('router')
 const router = Router()
-const Auth = require('./Auth')
-const query = require('../../classes').userClass().query
+//const query = require('../../classes').userClass().query
 
 router.post('/user/checkuserinfo', async (req, res) => {
     let { category, subject } = req.body
     console.log(`Check ${category} Request\n`, req.body)
    
     try {
+        const query = require('../../classes').userClass().query
         query.exists('username')
         query.equalTo(category, subject)
         let isExists = await query.find()

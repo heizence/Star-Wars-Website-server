@@ -1,6 +1,7 @@
 const Router = require('router')
 const router = Router()
 const Auth = require('./Auth')
+const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 const query = require('../../classes').userClass().query
 
@@ -10,22 +11,39 @@ router.post('/user/updateuser', async (req, res) => {
         
     if (Auth(token)) {
         let { objectId } = Auth(token)
+
         try {        
             let user = await query.get(objectId)
             console.log('get user : ', user)
-
+            
             if (newUsername) {
                 user.set('username', newUsername);
             }        
             if (newPassword) {
-                const hash = crypto.createHmac('sha256', 'heizence')
+                let hash = crypto.createHmac('sha256', 'heizence')
                 .update(String(newPassword)).digest('hex');
                 user.set('password', hash);
             }
 
             let userModified = await user.save()
+
+            // why usermodified[something] doesn't work?
+            userModified = JSON.parse(JSON.stringify(userModified))
+
+            // Create a new token based on new informations and send it to a client
+            let { email, password } = userModified
+            const newToken = jwt.sign({
+                exp: Math.floor(Date.now() / 1000) + (60*60),
+                email,
+                secret: password,
+                objectId: userModified.objectId
+              }, 'shhhhh')
+            
+            let resBody = { user: userModified, token: newToken }
+              
             console.log('User modified : ', userModified)
-            res.status(200).send(userModified) 
+            console.log('New Token created : ', newToken)
+            res.status(200).send(resBody) 
         }
         catch(error) {
             console.log('error occured!', error)

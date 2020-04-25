@@ -1,4 +1,4 @@
 *node_modules/*
+
+*TestFiles/*
 parseInfomations.js
-ImageLoader.html
-SaveImage.js

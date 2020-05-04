@@ -1,8 +1,8 @@
 const express = require('express')
 const cors = require('cors');
-const corsOptions = {
-    credentials: true
-};
+// const corsOptions = {
+//     credentials: true
+// };
 const bodyParser = require('body-parser')
 
 const app = express()
@@ -17,9 +17,8 @@ const UpdateUser = require('./routers/User/UpdateUser')
 const DeleteUser = require('./routers/User/DeleteUser')
 const CheckUserInfo = require('./routers/User/CheckUserInfo')
 
-
 app.set('port', port)
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 

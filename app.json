@@ -1,0 +1,6 @@
+{
+    "name": "Star Wars Website Server",
+    "description": "Star Wars Website Server",
+    "repository": "https://github.com/heizence/Star-Wars-Website-server",
+    "keywords": ["node", "express", "heroku", "starwars"]
+}

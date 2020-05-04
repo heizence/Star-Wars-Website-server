@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors');
 const corsOptions = {
-    origin: 'https://starwarswebsitebydoheon.herokuapp.com',
+    origin: 'https://swapibydoheon.herokuapp.com',
     optionsSuccessStatus: 200
 }
 const bodyParser = require('body-parser')

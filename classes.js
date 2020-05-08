@@ -17,6 +17,10 @@ const dataClass = function() {
   const starshipParse = Parse.Object.extend('Starship')
   const vehicleParse = Parse.Object.extend('Vehicle')
 
+  const BoardArticle = Parse.Object.extend('BoardArticle');
+  const BoardComment = Parse.Object.extend('BoardComment');
+  const BoardReply = Parse.Object.extend('BoardReply');
+
   const Planet = new Parse.Query(planetParse);
   const Character = new Parse.Query(characterParse);
   const Film = new Parse.Query(filmParse);
@@ -24,8 +28,24 @@ const dataClass = function() {
   const Starship = new Parse.Query(starshipParse);
   const Vehicle = new Parse.Query(vehicleParse);
 
+  // For creating objects
+  const newArticle = new BoardArticle();
+  const newComment = new BoardComment();
+  const newReply = new BoardReply();
+
+  // For addding relational Data
+  const relationalArticle = new Parse.Object('BoardArticle')
+  const relationalComment = new Parse.Object('BoardComment')
+
+  // For reading, updating, deleting
+  const Article = new Parse.Query(BoardArticle);
+  const Comment = new Parse.Query(BoardComment);
+  const Reply = new Parse.Query(BoardReply);
+
   return {
-    Planet, Character, Film, Specie, Starship, Vehicle
+    Planet, Character, Film, Specie, Starship, Vehicle,
+    newArticle, newComment, newReply, Article, Comment, Reply,
+    relationalArticle, relationalComment
   }
 }
 

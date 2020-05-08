@@ -3,31 +3,25 @@ const router = Router()
 const article = require('../../classes').dataClass().Article
 
 router.post('/board/article/updateviews', async (req, res) => {
-    let { token, articleId, likeOrDislike } = req.body
-    console.log('Update Article View Request\n', req.body)
+    console.log('Update Article View Request\n', req.body, '\n')
+    let { userId, articleId, likeOrDislike } = req.body
 
-    if (token.user) {
-        try {
-            let object = await article.get(articleId)
-            object.set('viewer', [token.user])  // add userinfo into viewer array
-           
-            if (likeOrDislike) {
-                likeOrDislike === 'like' ? 
-                object.set('like', [token.user]) :
-                object.set('dislike', [token.user])
-            }
-            let result = await object.save()
-            console.log('Article View modified : ', result)
-            res.status(200).send(result)
+    try {
+        let object = await article.get(articleId)
+        object.set('viewer', [...object.viewer, userId])  // Add userinfo into viewer array
+        
+        if (likeOrDislike) {
+            likeOrDislike === 'like' ? 
+            object.set('like', [...object.like, userId]) :
+            object.set('dislike', [...object.dislike, userId])
         }
-        catch(error) {
-            console.log(error)
-            res.status(400).send(error)
-        }
+        let result = await object.save()
+        console.log('Article View modified : ', result)
+        res.status(200).send(result)
     }
-    else {
-        console.log('No user found!')
-        res.status(400).send('No user found!')
+    catch(error) {
+        console.log(error)
+        res.status(400).send(error)
     }
     console.log('\n')
 })

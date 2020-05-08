@@ -1,26 +1,37 @@
 const Router = require('router')
 const router = Router()
 const article = require('../../classes').dataClass().Article
+const comment = require('../../classes').dataClass().Comment
+const reply = require('../../classes').dataClass().Reply
 
 router.delete('/board/article/deletearticle', async (req, res) => {
-    let { token, articleId } = req.query
-    console.log('Write Article Request\n', req.query)
+    console.log('Delete Article Request\n', req.query, '\n')
 
-    if (token.user) {
-        try {
-            let object = await article.get(articleId)
-            let result = await object.destory()
-            console.log('Article deleted : ', result)
-            res.status(200).send(result)
+    try {
+        let object = await article.get(req.query.articleId)
+
+        // Find and delete all related comments
+        comment.equalTo('articleId', articleId)
+        let relatedComments = await comment.find()
+
+        for (let i=0; i<relatedComments.length; i++) {
+            // Find and delete all related replies
+            reply.equalTo('commentId', relatedComments[i].objectId)
+            let relatedReplies = await reply.find()
+
+            for (let j=0; j<relatedReplies.length; j++) {
+                await relatedReplies[j].destroy()
+            }
+            await relatedComments[i].destroy()
         }
-        catch(error) {
-            console.log(error)
-            res.status(400).send(error)
-        }
+
+        let result = await object.destroy()
+        console.log('Article deleted : ', result)
+        res.status(200).send(result)
     }
-    else {
-        console.log('No user found!')
-        res.status(400).send('No user found!')
+    catch(error) {
+        console.log(error)
+        res.status(400).send(error)
     }
     console.log('\n')
 })

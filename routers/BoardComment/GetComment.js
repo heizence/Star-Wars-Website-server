@@ -1,11 +1,11 @@
 const Router = require('router')
 const router = Router()
-const comment = require('../../classes').dataClass().Comment
 
 router.get('/board/comment/getcomment', async (req, res) => {
     console.log('Get Comment Request\n', req.query)
-
-    // Find comments related to specific article provided by request 
+    const comment = require('../../classes').dataClass().Comment
+    
+    // Find comments related to a specific article provided by request 
     try {
         comment.equalTo('articleId', req.query.articleId)
         let result = await comment.find()

@@ -2,11 +2,11 @@ const Router = require('router')
 const router = Router()
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
-const query = require('../../classes').userClass().query
 
 router.post('/user/signin', async (req, res) => {
   console.log('Sign in request\n', req.body, '\n')
-
+  
+  const query = require('../../classes').userClass().query
   let { email, password } = req.body
   
   const hash = crypto.createHmac('sha256', 'heizence')
@@ -28,7 +28,7 @@ router.post('/user/signin', async (req, res) => {
         exp: Math.floor(Date.now() / 1000) + (60*60),
         email,
         secret: hash,
-        objectId: user[0].id
+        userId: user[0].id
       }, 'shhhhh')
 
       let resBody = { user: user[0], token }

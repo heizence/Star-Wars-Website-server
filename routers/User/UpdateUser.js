@@ -1,6 +1,6 @@
 const Router = require('router')
 const router = Router()
-const Auth = require('./Auth')
+const Auth = require('../../Auth')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 const query = require('../../classes').userClass().query
@@ -10,10 +10,10 @@ router.post('/user/updateuser', async (req, res) => {
     let { newUsername, newPassword, token } = req.body
         
     if (Auth(token)) {
-        let { objectId } = Auth(token)
+        let { userId } = Auth(token)
 
         try {        
-            let user = await query.get(objectId)
+            let user = await query.get(userId)
             console.log('get user : ', user)
             
             if (newUsername) {

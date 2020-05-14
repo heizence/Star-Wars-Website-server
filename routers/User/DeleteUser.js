@@ -1,15 +1,16 @@
 const Router = require('router')
 const router = Router()
-const Auth = require('./Auth')
+const Auth = require('../../Auth')
 const crypto = require('crypto')
-const query = require('../../classes').userClass().query
 
 router.delete('/user/deleteuser', async (req, res) => {
-    let { password, token } = req.query
     console.log('Delete user request\n', req.query)
     
+    const query = require('../../classes').userClass().query
+    let { password, token } = req.query
+    
     if (Auth(token)) {
-        let { secret, objectId } = Auth(token)
+        let { secret, userId } = Auth(token)
 
         const hash = crypto.createHmac('sha256', 'heizence')
         .update(String(password)).digest('hex');
@@ -20,7 +21,7 @@ router.delete('/user/deleteuser', async (req, res) => {
         }
         else {
             try {        
-                let user = await query.get(objectId)
+                let user = await query.get(userId)
                 console.log('get user : ', user)
 
                 let response = await user.destroy()

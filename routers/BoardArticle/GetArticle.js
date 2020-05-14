@@ -1,17 +1,25 @@
 const Router = require('router')
 const router = Router()
-const article = require('../../classes').dataClass().Article
+const Auth = require('../../Auth')
 
 router.get('/board/article/getarticle', async (req, res) => {
     console.log('Get Article Request\n')
     console.log('user exists? : ', req.query, '\n')
 
+    const article = require('../../classes').dataClass().Article
+    const { token } = req.query
+
     try {
         // Find all articles in Boardpage
-        if (req.query.userId) {
-            article.equalTo('writer', req.query.userId)
+        if (token && Auth(token)) {
+            let { userId } = Auth(token)  // userId
+            article.equalTo('writer', userId)
         }
-        // Find articles written by specific user in Mypage
+        else if (token && !Auth(token)) {
+            console.log('invalid token!')
+            res.status(400).send('invalid token!')
+        }
+        // Find articles written by a specific user in Mypage
         else {
             article.exists('title')
         }
@@ -22,8 +30,8 @@ router.get('/board/article/getarticle', async (req, res) => {
             res.status(400).send('No results found')
         }
         else {
-            console.log('All articles found : ', result)
-            res.status(200).send(result)
+            console.log('All articles found : ', articles)
+            res.status(200).send(articles)
         }
     }
     catch(error) {

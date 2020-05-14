@@ -1,23 +1,33 @@
 const Router = require('router')
 const router = Router()
-const article = require('../../classes').dataClass().Article
+const Auth = require('../../Auth')
 
 router.post('/board/article/writearticle', async (req, res) => {
     console.log('Write Article Request\n', req.body, '\n')
-    let { userId, title, contents } = req.body
 
-    article.set('title', title)
-    article.set('contents', contents)
-    article.set('writer', userId)
+    const article = require('../../classes').dataClass().newArticle
+    let { token, title, contents } = req.body
 
-    try {
-        let result = await article.save()
-        console.log('New Article saved : ', result)
-        res.status(200).send(result)
+    if (Auth(token)) {
+        let { userId } = Auth(token)  // userId
+
+        article.set('title', title)
+        article.set('contents', contents)
+        article.set('writer', userId)
+
+        try {
+            let result = await article.save()
+            console.log('New Article saved : ', result)
+            res.status(200).send(result)
+        }
+        catch(error) {
+            console.log(error)
+            res.status(400).send(error)
+        }
     }
-    catch(error) {
-        console.log(error)
-        res.status(400).send(error)
+    else {
+        console.log('invalid token!')
+        res.status(400).send('invalid token!')
     }
     console.log('\n')
 })

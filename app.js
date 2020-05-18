@@ -26,7 +26,8 @@ const GetArticle = require('./routers/BoardArticle/GetArticle')
 const WriteArticle = require('./routers/BoardArticle/WriteArticle')
 const ModifyArticle = require('./routers/BoardArticle/ModifyArticle')
 const DeleteArticle = require('./routers/BoardArticle/DeleteArticle')
-const UpdateArticle = require('./routers/BoardArticle/UpdateViews')
+const UpdateViews = require('./routers/BoardArticle/UpdateViews')
+const UpdateLikeOrDislike = require('./routers/BoardArticle/UpdateLikeOrDislike')
 
 // comments
 const GetComment = require('./routers/BoardComment/GetComment')
@@ -53,7 +54,8 @@ app.use(
     SignIn, SignOut, SignUp, 
     UpdateUser, DeleteUser, 
     CheckUserInfo,
-    GetArticle, WriteArticle, ModifyArticle, DeleteArticle, UpdateArticle, 
+    GetArticle, WriteArticle, ModifyArticle, DeleteArticle, UpdateViews, 
+    UpdateLikeOrDislike,
     GetComment, WriteComment, ModifyComment, DeleteComment, UpdateComment,
     GetReply, WriteReply, ModifyReply, DeleteReply, UpdateReply,
 )

@@ -6,7 +6,7 @@ router.post('/board/reply/writereply', async (req, res) => {
     console.log('Write reply Request\n', req.body, '\n')
 
     const reply = require('../../classes').dataClass().newReply
-    let { userId, commentId, contents } = req.body
+    let { token, commentId, contents } = req.body
 
     if (Auth(token)) {
         let { userId } = Auth(token)  // userId

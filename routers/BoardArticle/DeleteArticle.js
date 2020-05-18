@@ -30,9 +30,15 @@ router.delete('/board/article/deletearticle', async (req, res) => {
                 comment.equalTo('articleId', articleId)
                 let relatedComments = await comment.find()
 
-                for (let i=0; i<relatedComments.length; i++) {
+                // why relatedComments[i] doesn't work?
+                let temp = JSON.stringify(relatedComments)
+                temp = JSON.parse(temp)
+
+                for (let i=0; i<temp.length; i++) {
+                    console.log(temp[i], temp[i].objectId)
+                    
                     // Find and delete all related replies
-                    reply.equalTo('commentId', relatedComments[i].objectId)
+                    reply.equalTo('commentId', temp[i].objectId)
                     let relatedReplies = await reply.find()
 
                     for (let j=0; j<relatedReplies.length; j++) {

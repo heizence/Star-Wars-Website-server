@@ -7,7 +7,7 @@ By exporting function which contains all things necessary and make it executed w
 all problems solved.
 */
 
-const Parse = require('./parseInformations');
+const Parse = require('./parseInfo');
 
 const dataClass = function() {
   const planetParse = Parse.Object.extend('Planet')

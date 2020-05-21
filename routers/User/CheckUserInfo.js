@@ -2,7 +2,7 @@ const Router = require('router')
 const router = Router()
 
 router.post('/user/checkuserinfo', async (req, res) => {
-    console.log(`Check ${category} Request\n`, req.body)
+    console.log(`Check ${req.body.category} Request\n`, req.body)
     
     const query = require('../../classes').userClass().query
     let { category, subject } = req.body

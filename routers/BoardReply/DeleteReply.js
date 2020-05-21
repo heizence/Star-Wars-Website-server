@@ -14,7 +14,7 @@ router.delete('/board/reply/deletereply', async (req, res) => {
         try {
             reply.equalTo('writer', userId)   // to prevent other users from manipulating 
             reply.equalTo('objectId', replyId)
-            let object = await reply.get(req.query.replyId)
+            let object = await reply.find()
 
             if (object.length === 0) {
                 console.log("writer id and request user id don't match. This could be a malicious attack.")

@@ -24,11 +24,16 @@ router.post('/user/signin', async (req, res) => {
       res.status(200).send(false)
     }
     else {
+      // why user[0].username doesn't work?
+      let temp = JSON.stringify(user)
+      temp = JSON.parse(temp)
+
       const token = jwt.sign({
         exp: Math.floor(Date.now() / 1000) + (60*60),
         email,
         secret: hash,
-        userId: user[0].id
+        userId: user[0].id,
+        username: temp[0].username
       }, 'shhhhh')
 
       let resBody = { user: user[0], token }

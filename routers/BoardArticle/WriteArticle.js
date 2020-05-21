@@ -9,11 +9,12 @@ router.post('/board/article/writearticle', async (req, res) => {
     let { token, title, contents } = req.body
 
     if (Auth(token)) {
-        let { userId } = Auth(token)  // userId
-
+        let { userId, username } = Auth(token)  // userId
+     
         article.set('title', title)
         article.set('contents', contents)
         article.set('writer', userId)
+        article.set('writerUsername', username)
 
         try {
             let result = await article.save()

@@ -1,6 +1,6 @@
 const Router = require('router')
 const router = Router()
-const Auth = require('../../Auth')
+const Auth = require('../commonFunctions/Auth')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 const query = require('../../classes').userClass().query

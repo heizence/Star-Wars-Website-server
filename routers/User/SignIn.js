@@ -29,7 +29,9 @@ router.post('/user/signin', async (req, res) => {
       temp = JSON.parse(temp)
 
       const token = jwt.sign({
-        exp: Math.floor(Date.now() / 1000) + (60*60),
+        // expiration time : second * min * hour 
+        // For example, if 60*60, jwt expires after 1 hour. If 60*60*n, jwt expires after n hours.
+        exp: Math.floor(Date.now() / 1000) + (60*60*24),  // jwt is valid during 1 day.
         email,
         secret: hash,
         userId: user[0].id,

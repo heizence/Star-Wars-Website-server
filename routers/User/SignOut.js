@@ -1,6 +1,6 @@
 const Router = require('router')
 const router = Router()
-const Auth = require('../../Auth')
+const Auth = require('../commonFunctions/Auth')
 
 router.get('/user/signout', (req, res) => {
   console.log('Sign out request\n', req.query.token)

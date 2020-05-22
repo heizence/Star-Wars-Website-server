@@ -1,6 +1,6 @@
 const Router = require('router')
 const router = Router()
-const Auth = require('../../Auth')
+const Auth = require('../commonFunctions/Auth')
 
 router.get('/board/article/getarticle', async (req, res) => {
     console.log('Get Article Request\n')
@@ -12,8 +12,8 @@ router.get('/board/article/getarticle', async (req, res) => {
     try {
         // Find all articles in Boardpage
         if (token && Auth(token)) {
-            let { userId } = Auth(token)  // userId
-            article.equalTo('writer', userId)
+            let { username } = Auth(token)  // username
+            article.equalTo('writer', username)
         }
         else if (token && !Auth(token)) {
             console.log('invalid token!')

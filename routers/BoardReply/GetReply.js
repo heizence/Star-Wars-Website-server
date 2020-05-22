@@ -7,7 +7,7 @@ router.get('/board/reply/getreply', async (req, res) => {
 
     // Find replys related to the a specific comment provided by request 
     try {
-        reply.equalTo('articleId', req.query.commentId)
+        reply.equalTo('commentId', req.query.commentId)
         let result = await reply.find()
         console.log('All replies found : ', result)
         res.status(200).send(result)

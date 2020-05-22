@@ -1,6 +1,6 @@
 const Router = require('router')
 const router = Router()
-const Auth = require('../../Auth')
+const Auth = require('../commonFunctions/Auth')
 
 router.delete('/board/reply/deletereply', async (req, res) => {
     console.log('Delete Reply Request\n', req.query, '\n')
@@ -9,10 +9,10 @@ router.delete('/board/reply/deletereply', async (req, res) => {
     let { token, replyId } = req.query
 
     if (Auth(token)) {
-        let { userId } = Auth(token)
+        let { username } = Auth(token)
 
         try {
-            reply.equalTo('writer', userId)   // to prevent other users from manipulating 
+            reply.equalTo('writer', username)   // to prevent other users from manipulating 
             reply.equalTo('objectId', replyId)
             let object = await reply.find()
 

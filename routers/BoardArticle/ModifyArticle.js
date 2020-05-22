@@ -1,6 +1,6 @@
 const Router = require('router')
 const router = Router()
-const Auth = require('../../Auth')
+const Auth = require('../commonFunctions/Auth')
 
 router.post('/board/article/modifyarticle', async (req, res) => {
     console.log('Modify Article Request\n', req.body, '\n')
@@ -9,10 +9,10 @@ router.post('/board/article/modifyarticle', async (req, res) => {
     let { token, articleId, newTitle, newContents } = req.body
 
     if (Auth(token)) {
-        let { userId } = Auth(token)
+        let { username } = Auth(token)
 
         try {
-            article.equalTo('writer', userId)   // to prevent other users from modifying 
+            article.equalTo('writer', username)   // to prevent other users from modifying 
             article.equalTo('objectId', articleId)
             let object = await article.find()
 

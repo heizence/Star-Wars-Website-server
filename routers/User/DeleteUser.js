@@ -1,6 +1,6 @@
 const Router = require('router')
 const router = Router()
-const Auth = require('../../Auth')
+const Auth = require('../commonFunctions/Auth')
 const crypto = require('crypto')
 
 router.delete('/user/deleteuser', async (req, res) => {

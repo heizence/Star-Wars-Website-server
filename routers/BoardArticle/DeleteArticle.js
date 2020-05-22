@@ -1,6 +1,6 @@
 const Router = require('router')
 const router = Router()
-const Auth = require('../../Auth')
+const Auth = require('../commonFunctions/Auth')
 
 router.delete('/board/article/deletearticle', async (req, res) => {
     console.log('Delete Article Request\n', req.query, '\n')
@@ -11,10 +11,10 @@ router.delete('/board/article/deletearticle', async (req, res) => {
     const { token, articleId } = req.query
 
     if (Auth(token)) {
-        let { userId } = Auth(token)
+        let { username } = Auth(token)
 
         try {
-            article.equalTo('writer', userId)   // to prevent other users from manipulating 
+            article.equalTo('writer', username)   // to prevent other users from manipulating 
             article.equalTo('objectId', articleId)
             let object = await article.find()
 

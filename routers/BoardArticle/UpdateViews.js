@@ -1,6 +1,6 @@
 const Router = require('router')
 const router = Router()
-const Auth = require('../../Auth')
+const Auth = require('../commonFunctions/Auth')
 
 router.post('/board/article/updateviews', async (req, res) => {
     console.log('Update Article View Request\n', req.body, '\n')
@@ -9,7 +9,7 @@ router.post('/board/article/updateviews', async (req, res) => {
     let { token, articleId } = req.body
 
     if (Auth(token)) {
-        let { userId } = Auth(token)  // userId which gives like or dislike and view
+        let { username } = Auth(token)  // user's username which gives like or dislike and view
 
         try {
             let object = await article.get(articleId)
@@ -21,11 +21,11 @@ router.post('/board/article/updateviews', async (req, res) => {
             console.log('Check temp : ', temp, '\n')
             // viewer informations
             let arrToUpdate = temp.viewer
-            let checkUser = arrToUpdate.filter(user => user === userId)
+            let checkUser = arrToUpdate.filter(user => user === username)
 
             if (checkUser.length === 0) {
                 // still on progress!
-                let updatedArr = [...arrToUpdate, userId] 
+                let updatedArr = [...arrToUpdate, username] 
                 object.set('viewer', updatedArr)  // Add userinfo into viewer array
 
                 let result = await object.save()

@@ -1,7 +1,7 @@
 # Star Wars Website-server
 This project provides information on the different elements featured in the movie Star Wars. It is divided into 6 categories. In addition to providing information, it provides a user membership registration function.
 
-__This project is no longer being maintained!__
+__This project is no longer maintained!__
 
 ### Categories provided
 + Character
